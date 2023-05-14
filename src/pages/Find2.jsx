@@ -29,6 +29,18 @@ function Find2() {
     return null;
   }
 
+  function clearCookies() {
+  var cookies = document.cookie.split(";");
+
+  for (var i = 0; i < cookies.length; i++) {
+    var cookie = cookies[i];
+    var eqPos = cookie.indexOf("=");
+    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  }
+}
+
+
     const registerUser = async () => {
         const lsData = {
           first_name: getCookie('first_name'),
@@ -52,21 +64,25 @@ function Find2() {
           },
           body: JSON.stringify(lsData)
         })
-        .then(function (response) {
-          if (response.status === 200) {
+        if (response.status === 400) {
+            const result = await response.json()
+            toast.error(result)
+            setLoading(false)
+            clearCookies()
+            navigate('/find-an-artist/find1')
+        }
+          if (response.status === 200 || response.status === 201) {
             setLoading(false)
             toast.success('Registration Successful')
             navigate('/find-an-artist/find3')
-          } else if (response.status === 400) {
+            clearCookies()
+          } else if (response.status === 500) {
             toast.error('Check your details')
             setLoading(false)
-          }
-        })
-        .catch(function (error) {
-          toast.error('Check your details');
-          setLoading(false)
-        })
-      }
+            clearCookies()
+            navigate('/find-an-artist/find1')
+        }
+        }
 
     const validateBusinessName = () => {
       const business_name = document.getElementById('businessName')
@@ -84,6 +100,10 @@ function Find2() {
       const bio = document.getElementById('bio')
       document.cookie = `bio=${bio.value}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
     }
+
+    // var today = new Date();
+    // var minDate = new Date(today.getFullYear() - 16, today.getMonth(), today.getDate()).toISOString().split('T')[0];
+    // document.getElementById("dob").setAttribute("max", minDate);
 
     const validateDOB = () => {
       const dob = document.getElementById('dob')

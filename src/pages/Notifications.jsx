@@ -15,7 +15,7 @@ function Notifications() {
         <SideNav />
         <div className="col-span-2 border-r"></div>
         <div className="col-span-6 h-screen">
-          <div className='mt-2 lg:mt-20 ml-8 lg:ml-0'>
+          <div className='mt-2 lg:mt-20 ml-4 lg:ml-0'>
             <div className="flex justify-between">
               <h1 className='text-2xl font-bold'>Notifications</h1>
               <span className='text-sm text-dark-grey cursor-pointer hover:text-light-grey'>Mark all as read</span>

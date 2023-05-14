@@ -9,7 +9,7 @@ function Home() {
     <>
     <NavBar />
     <hr className='-mt-1 text-white' />
-    <div className='bg-gradient-to-r from-purple to-pink bg-screen pt-0 md:pt-8'>
+    <div className='bg-gradient-to-r from-purple to-pink h-screen pt-0 md:pt-8'>
       <div className="relative">
             <Card>
                 <p className='text-xs md:text-sm text-dark-grey'>Start for free</p>

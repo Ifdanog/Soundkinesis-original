@@ -125,11 +125,11 @@ function Step4() {
     <div className='bg-gradient-to-r from-purple to-pink h-full lg:h-screen pt-0 md:pt-8 pb-24'>
       <div className="relative">
           <div className="bg-white dark:bg-black py-10 px-6 md:px-10 rounded-none md:rounded-2xl w-full md:w-3/4 mx-auto mt-0 md:mt-2 text-center text-black">
-                <p className="align-center dark:text-white">Step 3 of 3</p>
+                <p className="align-center dark:text-white">Step 4 of 4</p>
                 <div className="w-1/3 mx-auto h-0.5 rounded-xl bg-darker-grey">
                     <div className="w-full h-0.5 bg-gradient-to-r from-purple-900 to-pink-900 rounded-lg"></div>
                 </div>
-                <h1 className="mt-4 text-2xl md:text-3xl font-bold dark:text-white">Find an Artist<span className="text-purple">.</span></h1>
+                <h1 className="mt-4 text-2xl md:text-3xl font-bold dark:text-white">Become an Artist<span className="text-purple">.</span></h1>
                 <h3 className='text-left text-sm mt-8 dark:text-white'>Choose how you verify your Account<span className="text-purple">.</span></h3>
                 <form className="-mt-2" onSubmit={formSubmit}>
                   {/* <div className="input-group">

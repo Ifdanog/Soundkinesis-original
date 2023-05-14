@@ -17,43 +17,34 @@ function Forgot2() {
       e.preventDefault()
     }
 
-    const resendCode = async () => {
-      try {
-        const emailVal = getCookie('email')
-        const data = {
-          email: emailVal
+    function getCookie(name) {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.startsWith(name + '=')) {
+          return cookie.substring(name.length + 1, cookie.length);
         }
-
-        const response = await fetch('https://soundkinesis.herokuapp.com/resend_otp/', {
-          method: 'POST',
-          headers: {
-            "Content-Type": "application/json",
-            'Authorization': 'Token 89cfc93ea3f431ebc2cfec5058d29e5882792cd1'
-          },
-          body: JSON.stringify(data),
-        })
-        setShowInput(true)
-        setLoading(false)
-        toast.success('OTP sent!')
-        .then(data => {
-          console.log(data);
-        })
-        
-        if(response.status === 400) {
-          toast.error('Unused OTP available')
-        }
-      } catch (error) {
-        toast.error('Incorrect Details')
-        setShowInput(false)
-        setLoading(false)
       }
+      return null;
     }
 
+     function clearCookies() {
+  var cookies = document.cookie.split(";");
+
+  for (var i = 0; i < cookies.length; i++) {
+    var cookie = cookies[i];
+    var eqPos = cookie.indexOf("=");
+    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  }
+}
+    const emailVal = getCookie('email')
+
     const verifyPin = async () => {
-      const email = document.getElementById('email').value
+      const emailVal = getCookie('email')
       const code = document.getElementById('code').value
       const forgotDetails = {
-        email: email,
+        email: emailVal,
         pin: code
       }
       const response = await fetch('https://soundkinesis.herokuapp.com/forgot_pass_verify_pin/', {
@@ -64,22 +55,22 @@ function Forgot2() {
       },
       body: JSON.stringify(forgotDetails)
       })
-
-      .then(function (response) {
+      
+      const unique_hex = await response.json()
+      document.cookie = `unique_hex=${unique_hex}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+        
         if (response.status === 200) {
           setLoading(false)
           toast.success('Code verified!')
           navigate('/forgot3')
-        } else if (response.status === 400) {
+          clearCookies()
+        } else if (response.status === 400 || response.status === 500) {
           toast.error('Check details')
           setLoading(false)
+          clearCookies()
         }
-      })
-      .catch(function (error) {
-        toast.error('Check details');
-        setLoading(false)
-      })
       }
+    
   return (loading ? <Spinner/> :( 
     <>
     <NavBar />
@@ -91,7 +82,7 @@ function Forgot2() {
               <p className='text-xs text-dark-grey'>Enter the code sent to your email</p>
               <form className="mt-8" onSubmit={formSubmit}> 
                   <div className="input-group">
-                      <input type="email" id="email" className="input my-4" required />
+                      <input type="email" id="email" className="input my-4" value={emailVal} required />
                       <label htmlFor="email" className="label top-0">Email</label>
                   </div>
 
@@ -105,7 +96,6 @@ function Forgot2() {
                               Confirm Code
                           </button>     
                   </div>
-                  <p className='text-xs text-dark-grey mt-8'>Did not receive the code? <Link className="text-pink underline underline-offset-2" onClick={resendCode}>Resend Code</Link></p>
               </form>
           </div>
           <img src={skLogo} alt="short SoundKinesis Logo" className='h-20 absolute -bottom-20 right-5 pb-4' />

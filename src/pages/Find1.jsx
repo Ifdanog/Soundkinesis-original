@@ -81,6 +81,20 @@ function Find1() {
             setConfirmPasswordMsg('')
         }
     }
+
+    function toggleShowPassword(inputFieldId, iconId) {
+    const inputField = document.getElementById(inputFieldId);
+    const icon = document.getElementById(iconId);
+    
+    if (inputField.type === "password") {
+      inputField.type = "text";
+      icon.className = 'text-grey';
+    } else {
+      inputField.type = "password";
+      icon.className = 'text-black';
+    }
+  }
+
   return (
     <>
     <NavBar />

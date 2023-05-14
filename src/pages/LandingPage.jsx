@@ -103,19 +103,19 @@ function LandingPage() {
                 <div className="w-4/5 md:w-1/2 lg:w-full mx-auto xl:w-full bg-gradient-to-r from-purple to-pink rounded-tr-3xl rounded-bl-3xl p-1 mb-8 xl:mb-0">
                     <div className='dark:bg-black dark:text-white bg-white rounded-tr-3xl rounded-bl-3xl p-8'>
                         <img src={broadcast} alt="" className='h-10' />
-                        <p className='font-medium text-xs md:text-sm'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non eos nihil debitis nam natus cumque ipsum at omnis sequi molestiae molestias</p>
+                        <p className='font-medium text-xs md:text-sm'>Our website links musicians with investors to support music creation and promotion. Our broadcasting service showcases talent globally, while providing a user-friendly interface and social media integration. We are committed to providing strong dialogue</p>
                     </div>
                 </div>
                 <div className="w-4/5 md:w-1/2 lg:w-full mx-auto xl:w-full bg-gradient-to-r from-purple to-pink rounded-tr-3xl rounded-bl-3xl p-1 mb-8 xl:mb-0">
                     <div className='dark:bg-black dark:text-white bg-white rounded-tr-3xl rounded-bl-3xl p-8'>
                         <img src={edit} alt="" className='h-10' />
-                        <p className='font-medium text-xs md:text-sm'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non eos nihil debitis nam natus cumque ipsum at omnis sequi molestiae molestias</p>
+                        <p className='font-medium text-xs md:text-sm'>Our website allows artists to easily edit and update their profiles and content, ensuring fans and investors have access to the most current information. Our user-friendly platform offers excellent service and support to create an efficient and powerful experience.</p>
                     </div>
                 </div>
                 <div className="w-4/5 md:w-1/2 lg:w-full mx-auto xl:w-full bg-gradient-to-r from-purple to-pink rounded-tr-3xl rounded-bl-3xl p-1 mb-8 xl:mb-0">
                     <div className='dark:bg-black dark:text-white bg-white rounded-tr-3xl rounded-bl-3xl p-8'>
                         <img src={profileSearch} alt="" className='h-10' />
-                        <p className='font-medium text-xs md:text-sm'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non eos nihil debitis nam natus cumque ipsum at omnis sequi molestiae molestias</p>
+                        <p className='font-medium text-xs md:text-sm'>Our website provides a powerful and intuitive profile search feature that enables investors and fans to discover new artists based on genre, location, popularity, and other criteria. We believe in connecting artists and investors to create a supportive music community.</p>
                     </div>
                 </div>
             </div>
@@ -221,9 +221,12 @@ function LandingPage() {
         
         <div id="about" className='my-20'>
         <h3 className='font-bold text-xl text-center'>About</h3>
-        <p className='text-center w-3/4 mx-auto my-4'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas bibendum nulla eget porta efficitur. Integer elementum ante blandit venenatis mattis. Proin ante dolor, placerat vel erat molestie, feugiat sodales purus. Phasellus scelerisque augue ut molestie bibendum.</p>
-        <p className='text-center w-3/4 mx-auto my-4'>Fusce ac fermentum elit. Etiam consequat mauris vel fermentum rutrum. Integer porta elit et nisl vestibulum fermentum sit amet ac tellus. Phasellus sed ex tempor sem tincidunt tincidunt. Nunc blandit lacus vel commodo tempor. Cras quis tempor ipsum, quis vestibulum neque.</p>
-        <p className='text-center w-3/4 mx-auto my-4'> Sed ut sapien vel augue vulputate commodo et et dolor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Donec tempor tristique ante, a pellentesque arcu sagittis sed. Sed porta sodales sapien quis dignissim. Nullam lacinia odio risus, at ullamcorper lacus commodo id.</p>
+        <p className='text-center w-3/4 mx-auto my-4'>Welcome to our platform, where we connect artists, especially musicians, with investors to support the creation and promotion of their music.</p>
+        <p className='text-center w-3/4 mx-auto my-4'>We believe that great music has the power to bring people together, inspire change, and transform lives. However, we also know that it can be challenging for artists to find the financial support they need to create and share their music with the world. That's where we come in.</p>
+        <p className='text-center w-3/4 mx-auto my-4'>Our platform is designed to bring artists and investors together in a way that benefits both parties. We offer a secure and transparent platform where investors can find and support talented musicians, and artists can receive the funding they need to bring their music to life.</p>
+        <p className='text-center w-3/4 mx-auto my-4'>We work with a diverse range of musicians, from up-and-coming artists to established performers, and we believe that every artist deserves the chance to share their music with the world. That's why we have made it our mission to help musicians achieve their dreams by connecting them with investors who share their passion and vision.</p>
+        <p className='text-center w-3/4 mx-auto my-4'>Our team is dedicated to providing the highest level of support and service to our users, and we are always available to answer questions and provide guidance. We are committed to fostering a collaborative and supportive community of artists and investors who share our love of music and our belief in the power of art to change the world.</p>
+        <p className='text-center w-3/4 mx-auto my-4'>Thank you for choosing our platform to support your musical journey. We are excited to be a part of your success and look forward to connecting you with the investors who can help make your dreams a reality.</p>
         </div>
 
         <Footer />

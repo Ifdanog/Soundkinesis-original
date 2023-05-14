@@ -37,7 +37,8 @@ const chatLink = (
         <div className="col-span-6 h-screen">
           <main className='block lg:grid grid-cols-9 gap-4 mt-2 lg:mt-20 mx-auto lg:ml-0'>
             <div className='col-span-4 bg-light-grey dark:bg-black dark:text-white inbox-height border-none lg:border rounded-lg p-4 shadow-lg'>
-              <div className='relative'>
+              <h1 className='text-6xl text-center mt-20 font-bold'>Coming Soon...</h1>
+              {/* <div className='relative'>
                 <input type="text" name="search" id="search" placeholder='Search artist...' className='w-full text-xs md:text-sm px-4 py-2 rounded-full' />
                 <label htmlFor="search">
                   <AiOutlineSearch style={iconStyles} className='h-4 absolute top-2 right-2' />
@@ -52,13 +53,13 @@ const chatLink = (
                   {chatLink}
                   {chatLink}
                 </div>
-              </div>
+              </div> */}
             </div>
-            <div className='col-span-5 inbox-height bg-pink rounded-md'>
+            {/* <div className='col-span-5 inbox-height bg-pink rounded-md'>
               <Routes>
                 <Route path='/chat' element={<Chat />} />
               </Routes>
-            </div>
+            </div> */}
           </main>
         </div>
       </div>

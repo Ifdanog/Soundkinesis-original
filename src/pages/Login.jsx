@@ -29,6 +29,7 @@ function Login() {
     
     const response = await fetch('https://soundkinesis.herokuapp.com/login', {
       method: 'POST',
+      //mode: 'no-cors',
       headers: {
         "Content-Type": "application/json",
         'Authorization': 'Token 89cfc93ea3f431ebc2cfec5058d29e5882792cd1'
@@ -49,8 +50,10 @@ function Login() {
       .catch(error => {
         toast.error('Invalid login details');
         setLoading(false)
+        console.log(error)
       })
   }
+  
 
   return (loading ? <Spinner /> : (
     <>

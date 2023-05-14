@@ -3,19 +3,19 @@ import profilepic from '../assets/icons8-male-user-50.png'
 import { FaHome } from 'react-icons/fa'
 import { FiSettings } from 'react-icons/fi'
 import { BsChatLeftTextFill } from 'react-icons/bs'
-import { MdExplore, MdNotifications, MdLogout } from 'react-icons/md'
-import { GrAdd } from 'react-icons/gr'
+import { MdExplore, MdNotifications, MdLogout, MdAdd } from 'react-icons/md'
 import { Link, NavLink } from 'react-router-dom'
 
 function SideNav() {
     const clicked = {
         color: '#FF0080',
         fontWeight: 'bold',
-        fontSize: '1rem',
+        fontSize: '1.1rem',
     }
 
     const unClicked = {
         color: '#8F8F8F',
+        fontSize: '1.1rem'
     }
 
     const imgClicked = {
@@ -34,6 +34,7 @@ function SideNav() {
 
     const downUnClicked = {
         color: '#8F8F8F',
+        fontSize: '1.5rem'
     }
 
     const pathMatchRoute = (route) => {
@@ -110,7 +111,7 @@ function SideNav() {
             </li>
             <li className='down-li'>
                 <NavLink to='/upload' className='flex flex-nowrap flex-col text-center'>
-                    <GrAdd style={pathMatchRoute('/upload') ? downClicked : downUnClicked} />
+                    <MdAdd className='text-3xl text-dark-grey' />
                 </NavLink>
             </li>
             <li className='down-li'>

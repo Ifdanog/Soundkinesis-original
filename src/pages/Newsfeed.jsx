@@ -37,7 +37,7 @@ function Newsfeed() {
         <SideNav />
         <div className="col-span-2 border-r h-full"></div>
         <div className="col-span-4">
-          <div className='border w-2/3 sm:w-1/3 dark:bg-white rounded-full overflow-hidden mt-4 lg:mt-20 mb-10 ml-10 lg:ml-0'>
+          <div className='border w-2/3 sm:w-1/3 dark:bg-white rounded-full overflow-hidden mt-4 lg:mt-20 mb-10 ml-6 lg:ml-0'>
             <Link>
               <button onClick={onClick} style={showVideo ? clickedBtn : unClickedBtn}>Video</button>
             </Link>

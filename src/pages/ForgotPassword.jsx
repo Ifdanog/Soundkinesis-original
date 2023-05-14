@@ -20,6 +20,8 @@ function ForgotPassword() {
 
     const forgotPass = async () => {
       const email = document.getElementById('email').value
+      document.cookie = `email=${email}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
+
       const forgotDetails = {
         email: email
       }

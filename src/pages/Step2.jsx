@@ -31,6 +31,9 @@ function Step2() {
       document.cookie = `bio=${bio.value}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
     }
 
+    // var today = new Date();
+    // var minDate = new Date(today.getFullYear() - 16, today.getMonth(), today.getDate()).toISOString().split('T')[0];
+    // document.getElementById("dob").setAttribute("max", minDate);
     const validateDOB = () => {
       const dob = document.getElementById('dob')
       

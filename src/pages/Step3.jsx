@@ -3,9 +3,10 @@ import NavBar from '../components/NavBar';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'
 import Footer from '../components/Footer';
-// import { GrClose } from 'react-icons/gr'
+import { useState } from 'react'
 
 function Step3() {
+  const [ loading, setLoading ] = useState(false)
   const navigate = useNavigate();
 
     function formSubmit(e) {
@@ -25,8 +26,18 @@ function Step3() {
       return null;
     }
 
+     function clearCookies() {
+  var cookies = document.cookie.split(";");
+
+  for (var i = 0; i < cookies.length; i++) {
+    var cookie = cookies[i];
+    var eqPos = cookie.indexOf("=");
+    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  }
+}
+
   const registerUser = async () => {
-    try {
       const LSData = {
         first_name: getCookie('first_name'),
         last_name: getCookie('last_name'),
@@ -50,15 +61,25 @@ function Step3() {
         },
         body: JSON.stringify(LSData)
       });
-      if(response.status === 200 || response.status === 201) {
-        navigate('/become-an-artist/step4')
+      if (response.status === 400) {
+        const result = await response.json()
+        toast.error(result)
+        setLoading(false)
+        clearCookies()
+        navigate('/become-an-artist/step1')
+    }
+      if (response.status === 200 || response.status === 201) {
+        setLoading(false)
         toast.success('Registration Successful')
-      }
-    } catch (error) {
-      toast.error('Check your details')
+        navigate('/become-an-artist/step4')
+        clearCookies()
+      } else if (response.status === 500) {
+        toast.error('Check your details')
+        setLoading(false)
+        clearCookies()
+        navigate('/become-an-artist/step1')
     }
-    // clearStorage()
-    }
+  }
 
     const genreArray = []
     const genreID = []
@@ -82,7 +103,6 @@ function Step3() {
     const resultDiv = document.getElementById('result');
     const  removeSelected = () => {
       const selectedItems = document.querySelectorAll("#result li.selected");
-      console.log('okay')
       selectedItems.forEach((item) => {
         const itemIndex = genreArray.indexOf(item.textContent);
         if (itemIndex > -1) {
@@ -91,6 +111,17 @@ function Step3() {
         item.remove();
       });
     }
+
+    // const listItems = document.querySelectorAll('#result li.selected')
+
+    // listItems.forEach(function(listItem) {
+    //   listItem.addEventListener("click", function() {
+    //     let clickedItem = this.textContent;
+    //     let indexToDelete = myArray.indexOf(clickedItem);
+    //     genreArray.splice(indexToDelete, 1);
+    //     this.remove();
+    //   });
+    // });
 
     const displayArray = () => {
       const listElement = document.getElementById("result");

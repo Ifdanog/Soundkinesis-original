@@ -4,13 +4,81 @@ import Post from '../components/Post'
 import { useState, useEffect } from 'react'
 import { Users } from '../../backend'
 import Spinner from '../components/Spinner'
-import {useAuthUser} from 'react-auth-kit'
+import { toast } from 'react-toastify'
 
 function Profile({post}) {
   const [loading, setLoading] = useState(true)
   const [section, setSection] = useState(true)
+  const [ following, setFollowing ] = useState(false)
   const [data, setData] = useState({})
-  const auth = useAuthUser()
+
+  const checkIfFollowing = async () => {
+    const email = getCookie('email')
+    const followEmail = 'bruce.tony.1893@gmail.com'
+    const data = {
+      user_email: email,
+      following: followEmail
+    }
+    const response = await fetch(`http://soundkinesis.herokuapp.com/check_follower/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Token 89cfc93ea3f431ebc2cfec5058d29e5882792cd1'
+        },
+        body: JSON.stringify(data)
+      })
+      const result = await response.json()
+      if(result === false) {
+        followAcc()
+        setFollowing(true)
+      } else {
+        setFollowing(false)
+        unFollowAcc()
+      }
+  }
+
+
+  const followAcc = async () => {
+    const email = getCookie('email')
+    const followEmail = 'bruce.tony.1893@gmail.com'
+    const data = {
+      email: email,
+      to_be_followed_email: followEmail
+    }
+
+
+    const response = await fetch(`http://soundkinesis.herokuapp.com/follow/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Token 89cfc93ea3f431ebc2cfec5058d29e5882792cd1'
+        },
+        body: JSON.stringify(data)
+      })
+      const result = await response.json()
+      toast.success(result)
+  }
+
+  const unFollowAcc = async () => {
+    const email = getCookie('email')
+    const unFollowEmail = 'bruce.tony.1893@gmail.com'
+    const data = {
+      email: email,
+      to_be_unfollowed_email: unFollowEmail
+    }
+
+
+    const response = await fetch(`http://soundkinesis.herokuapp.com/unfollow/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Token 89cfc93ea3f431ebc2cfec5058d29e5882792cd1'
+        },
+        body: JSON.stringify(data)
+      })
+      const result = await response.json()
+      toast.success(result)
+  }
 
   function getCookie(name) {
   const cookies = document.cookie.split(';');
@@ -41,6 +109,9 @@ function Profile({post}) {
       }
       setData(data)
     } catch {
+      setLoading(true)
+      setData(null)
+      toast.error('Error fetch details')
     }
   }
 
@@ -72,6 +143,9 @@ function Profile({post}) {
             <section className='px-4'>
               <div className='relative'>
                 <img src={Users[0].profilePicture} alt="" className='w-32 h-32 rounded-full absolute -top-10 shadow-lg' />
+                {following ? <button onClick={checkIfFollowing} className='text-sm md:text-normal border py-2 px-4 rounded-full absolute right-20 top-4 cursor-pointer hover:bg-pink hover:text-white'>Unfollow</button> : <button onClick={checkIfFollowing} className='text-sm md:text-normal border py-2 px-4 rounded-full absolute right-20 top-4 cursor-pointer hover:bg-pink hover:text-white'>Follow</button>}
+                
+
                 <Link to='/editprofile'>
                   <button className='text-sm md:text-normal border py-2 px-4 rounded-full absolute right-5 top-4 cursor-pointer hover:bg-pink hover:text-white'>Edit Profile</button>
                 </Link>
@@ -90,7 +164,7 @@ function Profile({post}) {
                 <div className='w-full cursor-pointer' onClick={clickSection} style={section ? clicked : unClicked}>Post</div>
                 <div className='w-full cursor-pointer' onClick={clickSection} style={section ? unClicked : clicked}>Likes</div>
               </div>
-              <div className="w-4/5 ml-8 mb-14">
+              <div className="w-full lg:w-4/5 ml-2 lg:ml-8 mb-14">
               {section ? <Post /> : 'Likes'}
               </div>
             </section>
