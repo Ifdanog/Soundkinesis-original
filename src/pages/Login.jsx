@@ -27,12 +27,12 @@ function Login() {
 
     document.cookie = `email=${email}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`;
     
-    const response = await fetch('https://soundkinesis.herokuapp.com/login', {
+    const response = await fetch('https://soundkinesis-1ce4ca8b95b5.herokuapp.com/login', {
       method: 'POST',
       //mode: 'no-cors',
       headers: {
         "Content-Type": "application/json",
-        'Authorization': 'Token 89cfc93ea3f431ebc2cfec5058d29e5882792cd1'
+        'Authorization': 'Token 2a4248e85ea9937795eeead649fe25a406ce493e'
       },
       body: JSON.stringify(loginData)
       })
@@ -40,7 +40,7 @@ function Login() {
         if (response.status === 200) {
             setLoading(false)
             toast.success('Login Successful')
-  
+            window.localStorage.setItem('isLoggedIn', true)
             navigate('/newsfeed')
           } else if (response.status === 400) {
             toast.error('Invalid login details')

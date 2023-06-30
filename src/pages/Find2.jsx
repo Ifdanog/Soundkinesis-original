@@ -42,6 +42,7 @@ function Find2() {
 
 
     const registerUser = async () => {
+      try {
         const lsData = {
           first_name: getCookie('first_name'),
           last_name: getCookie('last_name'),
@@ -56,11 +57,11 @@ function Find2() {
           password: getCookie('password')
         }
 
-        const response = await fetch('https://soundkinesis.herokuapp.com/register_user/', {
+        const response = await fetch('https://soundkinesis-1ce4ca8b95b5.herokuapp.com/register_user/', {
           method: 'POST',
           headers: {
             "Content-Type": "application/json",
-            'Authorization': 'Token 89cfc93ea3f431ebc2cfec5058d29e5882792cd1'
+            'Authorization': 'Token 2a4248e85ea9937795eeead649fe25a406ce493e'
           },
           body: JSON.stringify(lsData)
         })
@@ -81,8 +82,19 @@ function Find2() {
             setLoading(false)
             clearCookies()
             navigate('/find-an-artist/find1')
-        }
-        }
+        } else if (response.status === 400) {
+          toast.error('Check your details')
+          setLoading(false)
+          clearCookies()
+          navigate('/find-an-artist/find1')
+      }
+      } catch {
+        toast.error('Check your details')
+        setLoading(false)
+        clearCookies()
+        navigate('/find-an-artist/find1')
+      }  
+    }
 
     const validateBusinessName = () => {
       const business_name = document.getElementById('businessName')

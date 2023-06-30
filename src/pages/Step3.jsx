@@ -3,11 +3,75 @@ import NavBar from '../components/NavBar';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'
 import Footer from '../components/Footer';
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function Step3() {
   const [ loading, setLoading ] = useState(false)
+  const [ data, setData ] = useState({})
   const navigate = useNavigate();
+
+  useEffect(() => {
+    //getgenre()
+  }, [])
+
+  let fetchedData;
+  let isFetching = false;
+
+  const getgenre = async () => {
+    if (fetchedData) {
+      // Use the cached data
+      return Promise.resolve(fetchedData);
+    }  if (fetchedData) {
+      // Use the cached data
+      return Promise.resolve(fetchedData);
+    } else if (!isFetching) {
+      // Set the flag to indicate the fetch request is in progress
+      isFetching = true;
+      try {
+        const response = await fetch(`https://soundkinesis-1ce4ca8b95b5.herokuapp.com/get_genre`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            'Authorization': 'Token 2a4248e85ea9937795eeead649fe25a406ce493e'
+          },
+        })
+        const data = await response.json();
+        
+        console.log(data)
+        setData(data)
+        // if(response.status === 200) {
+        // }
+      } catch {
+        setLoading(true)
+        setData(null)
+        toast.error('Error fetch details')
+      }
+    } else {
+      // Fetch request is already in progress, return a pending Promise
+      return new Promise((resolve) => {
+        const checkFetching = () => {
+          if (fetchedData) {
+            // The fetch request has completed, resolve with the cached data
+            resolve(fetchedData);
+          } else {
+            // The fetch request is still in progress, check again after a short delay
+            setTimeout(checkFetching, 100);
+          }
+        };
+        checkFetching();
+      });
+    }
+  }
+
+  const selectElement = document.getElementById('genre');
+  const myArray = data
+  // Iterate over the object and create options
+  for (let i = 0; i < myArray.length; i++) {
+    const option = document.createElement('option');
+    option.value = myArray[i].id;
+    option.text = myArray[i].name;
+    selectElement.appendChild(option);
+  }
 
     function formSubmit(e) {
        registerUser()
@@ -53,11 +117,11 @@ function Step3() {
         password: getCookie('password'),
       }
 
-      const response = await fetch('https://soundkinesis.herokuapp.com/register_user/', {
+      const response = await fetch('https://soundkinesis-1ce4ca8b95b5.herokuapp.com/register_user/', {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          'Authorization': 'Token 89cfc93ea3f431ebc2cfec5058d29e5882792cd1'
+          'Authorization': 'Token 2a4248e85ea9937795eeead649fe25a406ce493e'
         },
         body: JSON.stringify(LSData)
       });
@@ -152,12 +216,8 @@ function Step3() {
                     <div className="input-group">
                         <select id="genre" name="genre" className='input select-input' onChange={getSelectValue} required>
                             <option>Choose Genre</option>
-                            <option id="1" value='Afro'>Afro</option>
-                            <option id="2" value='Soul'>Soul</option>
-                            <option id="3" value='RnB'>RnB</option>
-                            <option id="4" value='Rap'>Rap</option>
-                            <option id="5" value='Hip-Hop'>Hip-Hop</option>
-                            <option id="6" value='Pop'>Pop</option>
+                            <option id="1">Hip-pop</option>
+                            <option id="2">Rap</option>
                         </select>
                         <label htmlFor="genre" className="label top-0 dob-label">Genre</label>
                     </div>

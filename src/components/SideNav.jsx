@@ -4,9 +4,11 @@ import { FaHome } from 'react-icons/fa'
 import { FiSettings } from 'react-icons/fi'
 import { BsChatLeftTextFill } from 'react-icons/bs'
 import { MdExplore, MdNotifications, MdLogout, MdAdd } from 'react-icons/md'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 
 function SideNav() {
+    const navigate = useNavigate()
+
     const clicked = {
         color: '#FF0080',
         fontWeight: 'bold',
@@ -41,6 +43,11 @@ function SideNav() {
         if(route === location.pathname) {
             return true
         }
+    }
+
+    const logoutFunc = () => {
+        window.localStorage.removeItem('isLoggedIn')
+        navigate('/')
     }
 
   return (
@@ -88,7 +95,7 @@ function SideNav() {
                 </ul>
                 <ul className="absolute bottom-0">
                     <li className='side-li mb-8 flex gap-4'>
-                        <NavLink to="/" className='flex gap-4 text-black dark:text-white hover:text-pink'>
+                        <NavLink to="/" onClick={logoutFunc} className='flex gap-4 text-black dark:text-white hover:text-pink'>
                             <MdLogout style={{marginTop: '3px'}} />
                             <span>Logout</span>
                         </NavLink>

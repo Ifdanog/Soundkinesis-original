@@ -28,11 +28,11 @@ function Step4() {
           pin: pin
         }
 
-        const response = await fetch('https://soundkinesis.herokuapp.com/validate_email_pin/', {
+        const response = await fetch('https://soundkinesis-1ce4ca8b95b5.herokuapp.com/validate_email_pin/', {
           method: 'POST',
           headers: {
             "Content-Type": "application/json",
-            'Authorization': 'Token 89cfc93ea3f431ebc2cfec5058d29e5882792cd1'
+            'Authorization': 'Token 2a4248e85ea9937795eeead649fe25a406ce493e'
           },
           body: JSON.stringify(data),
         })
@@ -57,11 +57,11 @@ function Step4() {
           email: emailVal
         }
 
-        const response = await fetch('https://soundkinesis.herokuapp.com/resend_otp/', {
+        const response = await fetch('https://soundkinesis-1ce4ca8b95b5.herokuapp.com/resend_otp/', {
           method: 'POST',
           headers: {
             "Content-Type": "application/json",
-            'Authorization': 'Token 89cfc93ea3f431ebc2cfec5058d29e5882792cd1'
+            'Authorization': 'Token 2a4248e85ea9937795eeead649fe25a406ce493e'
           },
           body: JSON.stringify(data),
         })
@@ -97,11 +97,11 @@ function Step4() {
           email: emailVal
         }
 
-        const response = await fetch('https://soundkinesis.herokuapp.com/validate_email/', {
+        const response = await fetch('https://soundkinesis-1ce4ca8b95b5.herokuapp.com/validate_email/', {
           method: 'POST',
           headers: {
             "Content-Type": "application/json",
-            'Authorization': 'Token 89cfc93ea3f431ebc2cfec5058d29e5882792cd1'
+            'Authorization': 'Token 2a4248e85ea9937795eeead649fe25a406ce493e'
           },
           body: JSON.stringify(data),
         })

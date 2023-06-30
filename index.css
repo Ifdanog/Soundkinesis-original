@@ -566,10 +566,6 @@ video {
   right: 0.5rem;
 }
 
-.right-20{
-  right: 5rem;
-}
-
 .right-5{
   right: 1.25rem;
 }
@@ -1019,11 +1015,6 @@ video {
   border-style: none;
 }
 
-.border-black{
-  --tw-border-opacity: 1;
-  border-color: rgb(29 33 35 / var(--tw-border-opacity));
-}
-
 .border-pink{
   --tw-border-opacity: 1;
   border-color: rgb(255 0 128 / var(--tw-border-opacity));
@@ -1415,10 +1406,6 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-.filter{
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
-}
-
 .transition{
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
@@ -1471,6 +1458,11 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+audio, video {
+  display: block;
+  /* Update this to 'block' or 'inline-block' */
 }
 
 .profile-sec {
@@ -1806,8 +1798,17 @@ input[type=number] {
   background-color: rgb(255 0 128 / var(--tw-bg-opacity));
 }
 
+.hover\:bg-white:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(238 238 238 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-gradient-to-l:hover{
   background-image: linear-gradient(to left, var(--tw-gradient-stops));
+}
+
+.hover\:bg-none:hover{
+  background-image: none;
 }
 
 .hover\:text-darker-grey:hover{
@@ -1872,6 +1873,11 @@ input[type=number] {
 :is(.dark .dark\:text-white){
   --tw-text-opacity: 1;
   color: rgb(238 238 238 / var(--tw-text-opacity));
+}
+
+:is(.dark .dark\:hover\:bg-black:hover){
+  --tw-bg-opacity: 1;
+  background-color: rgb(29 33 35 / var(--tw-bg-opacity));
 }
 
 :is(.dark .dark\:hover\:bg-dark-grey:hover){

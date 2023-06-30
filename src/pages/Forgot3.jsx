@@ -40,11 +40,11 @@ function Forgot3() {
         password_1: password,
         password_2: conPassword
       }
-      const response = await fetch('https://soundkinesis.herokuapp.com/reset_password/', {
+      const response = await fetch('https://soundkinesis-1ce4ca8b95b5.herokuapp.com/reset_password/', {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
-        'Authorization': 'Token 89cfc93ea3f431ebc2cfec5058d29e5882792cd1'
+        'Authorization': 'Token 2a4248e85ea9937795eeead649fe25a406ce493e'
       },
       body: JSON.stringify(newDetails)
       })

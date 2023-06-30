@@ -37,6 +37,10 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+audio, video {
+    display: block; /* Update this to 'block' or 'inline-block' */
+  }
+  
 
 .profile-sec {
     text-align: center;
