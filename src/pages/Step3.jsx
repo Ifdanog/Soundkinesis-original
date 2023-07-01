@@ -176,17 +176,6 @@ function Step3() {
       });
     }
 
-    // const listItems = document.querySelectorAll('#result li.selected')
-
-    // listItems.forEach(function(listItem) {
-    //   listItem.addEventListener("click", function() {
-    //     let clickedItem = this.textContent;
-    //     let indexToDelete = myArray.indexOf(clickedItem);
-    //     genreArray.splice(indexToDelete, 1);
-    //     this.remove();
-    //   });
-    // });
-
     const displayArray = () => {
       const listElement = document.getElementById("result");
       listElement.innerHTML = "";
@@ -218,6 +207,9 @@ function Step3() {
                             <option>Choose Genre</option>
                             <option id="1">Hip-pop</option>
                             <option id="2">Rap</option>
+                            <option id="3">Pop</option>
+                            <option id="4">Reggae</option>
+                            <option id="5">Funk</option>
                         </select>
                         <label htmlFor="genre" className="label top-0 dob-label">Genre</label>
                     </div>
