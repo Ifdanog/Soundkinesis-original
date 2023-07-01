@@ -45,7 +45,7 @@ function Search() {
           }
           setData(data)
         } catch {
-          setLoading(true)
+          setLoading(false)
           setData(null)
           toast.error('Error fetch details')
         }

@@ -79,7 +79,6 @@ function UploadPage() {
     });
   
     const result = await response.json();
-    console.log('working...')
     toast.success(result);
   }
 

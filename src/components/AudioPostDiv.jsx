@@ -7,9 +7,9 @@ import Spinner from './Spinner'
 import profilepic from '../assets/icons8-male-user-50.png'
 
 function AudioPostDiv() {
-  const [like, setLike] = useState(false)
+  const [like, setLike] = useState([])
   const [likes, setLikes] = useState('0')
-  const [comment, setComment] = useState(false)
+  const [comment, setComment] = useState({});
   const [share, setShare] = useState(false)
   const [bookmark, setBookmark] = useState(false)
   const [ loading, setLoading ] = useState(false)
@@ -38,11 +38,11 @@ function AudioPostDiv() {
         setLoading(false)
       }
       setData(result)
-      console.log(result)
+      setLike(Array(result.length).fill(false))
       localStorage.setItem('showProfileEmail', result[0].user_id)
 
     } catch {
-      setLoading(true)
+      setLoading(false)
       setData(null)
       toast.error('Error fetch details')
     }
@@ -64,7 +64,7 @@ function AudioPostDiv() {
       }
       setData(data)
     } catch {
-      setLoading(true)
+      setLoading(false)
       setData(null)
       toast.error('Error fetch details')
     }
@@ -81,14 +81,14 @@ function AudioPostDiv() {
     return null;
   }
 
-  const likePost = async () => {
-    const emailVal = getCookie('email')
-    const post_id = data.post_id
+  const likePost = async (postId, index) => {
+    const emailVal = getCookie('email');
+    const post_id = postId;
     const likeData = {
       email: emailVal,
       post_id: post_id
-    }
-
+    };
+  
     const response = await fetch('https://soundkinesis-1ce4ca8b95b5.herokuapp.com/post/like', {
       method: 'POST',
       headers: {
@@ -96,19 +96,23 @@ function AudioPostDiv() {
         'Authorization': 'Token 2a4248e85ea9937795eeead649fe25a406ce493e'
       },
       body: JSON.stringify(likeData)
-    })
+    });
     setLikes(likes + 1);
-    setLike(true)
-  }
-
-  const unLikePost = async () => {
-    const emailVal = getCookie('email')
-    const post_id = data.post_id
+    setLike(prevLike => {
+      const updatedLike = [...prevLike];
+      updatedLike[index] = true
+      return updatedLike;
+    });
+  };
+  
+  const unLikePost = async (postId, index) => {
+    const emailVal = getCookie('email');
+    const post_id = postId;
     const unLikeData = {
       email: emailVal,
       post_id: post_id
-    }
-
+    };
+  
     const response = await fetch('https://soundkinesis-1ce4ca8b95b5.herokuapp.com/post/remove_like', {
       method: 'POST',
       headers: {
@@ -116,40 +120,49 @@ function AudioPostDiv() {
         'Authorization': 'Token 2a4248e85ea9937795eeead649fe25a406ce493e'
       },
       body: JSON.stringify(unLikeData)
-    })
+    });
     setLikes(likes - 1);
-    setLike(false)
-  }
-
-    const commentOnPost = async (e) => {
-      e.preventDefault()
-
-
-      const emailVal = getCookie('email')
-      const post_id = data.post_id
-      const comment = document.getElementById('comment').value
-      const commentData = {
-        email: emailVal,
-        post_id: post_id,
-        comment: comment
-      }
+    setLike(prevLike => {
+      const updatedLike = [...prevLike];
+      updatedLike[index] = false
+      return updatedLike;
+    });
+  };
   
-      const response = await fetch('https://soundkinesis-1ce4ca8b95b5.herokuapp.com/post/comment', {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization': 'Token 2a4248e85ea9937795eeead649fe25a406ce493e'
-        },
-        body: JSON.stringify(commentData)
-      })
-      const result = await response.json()
-      toast.success(result)
-      document.getElementById('comment').value = ''
-    }
 
-  const onCommentClick = () => {
-    setComment(!comment)
-  }
+  const commentOnPost = async (postId, e) => {
+    e.preventDefault();
+  
+    const emailVal = getCookie('email');
+    const post_id = postId
+    const comment = document.getElementById('comment').value;
+    const commentData = {
+      email: emailVal,
+      post_id: post_id,
+      comment: comment
+    };
+  
+    const response = await fetch('https://soundkinesis-1ce4ca8b95b5.herokuapp.com/post/comment', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': 'Token 2a4248e85ea9937795eeead649fe25a406ce493e'
+      },
+      body: JSON.stringify(commentData)
+    });
+  
+    const result = await response.json();
+    toast.success(result);
+    document.getElementById('comment').value = '';
+  }; 
+
+  const onCommentClick = (postId) => {
+    setComment((prevState) => ({
+      ...prevState,
+      [postId]: !prevState[postId]
+    }));
+  };
+  
 
   const onShareClick = () => {
     setShare(!share)
@@ -169,30 +182,22 @@ function AudioPostDiv() {
     color: '#8F8F8F',
     fontSize: '1.2rem'
   }
-  const commentDiv = (
-    <div className='relative mt-2'>
-      <form onSubmit={commentOnPost}>
-        <textarea id='comment' type="text" placeholder='Type in your comments...' className='w-full text-sm md:text-normal bg-white dark:bg-black p-2 border border-pink dark:border-white rounded-lg' required></textarea>
-        <button type='submit' className="bg-dark-grey hover:bg-pink rounded-lg p-2 absolute top-2 right-2">
-          <AiOutlineSend className="text-2xl text-white" /> 
-        </button>
-      </form>
-    </div>
-  )
-
+  
   const showProfile = async () => {
     navigate('/userprofile')
-   // history.push(`/profile/${data.user_id}`);
   }
 
-  
   const postData = data;
   let currentItem = null;
   const itemsArray = [];
   
-  for (let i = 0; i < postData.length; i += 3) {
-    currentItem = postData[i];
-    itemsArray.push(currentItem);
+  if (data === null) {
+  } else if (data.length === 0) {
+  } else {
+    for (let i = 0; i < postData.length; i += 3) {
+      currentItem = postData[i];
+      itemsArray.push(currentItem);
+    }
   }
 
   return (loading ? <Spinner /> : (
@@ -209,29 +214,32 @@ function AudioPostDiv() {
   </audio>
   <div className='flex justify-between py-4'>
       <div className='flex gap-4'>
-      {
-              data.i_like ? (
-                <FaThumbsUp
-                  className='cursor-pointer'
-                  style={clicked}
-                  onClick={unLikePost}
-                />
-              ) : like ? (
-                <FaThumbsUp
-                  className='cursor-pointer'
-                  style={clicked}
-                  onClick={unLikePost}
-                />
-              ) : (
-                <FaThumbsUp
-                  className='cursor-pointer'
-                  style={unClicked}
-                  onClick={likePost}
-                />
-              )
-            }
+      {data.i_like ? (
+        <FaThumbsUp
+          className='cursor-pointer'
+          style={clicked}
+          onClick={() => unLikePost(data.post_id, index)}
+        />
+      ) : like[index] ? (
+        <FaThumbsUp
+          className='cursor-pointer'
+          style={clicked}
+          onClick={() => unLikePost(data.post_id, index)}
+        />
+      ) : (
+        <FaThumbsUp
+          className='cursor-pointer'
+          style={unClicked}
+          onClick={() => likePost(data.post_id, index)}
+        />
+      )}
          
-          <FaComment className='cursor-pointer' onClick={onCommentClick} style={comment ? clicked : unClicked} />
+      <FaComment
+        className='cursor-pointer'
+        onClick={() => onCommentClick(data.post_id)}
+        style={comment[data.post_id] ? clicked : unClicked}
+      />
+
           <FaShare className='cursor-pointer' onClick={onShareClick} style={share ? clicked : unClicked} />
       </div>
       <FaBookmark className='cursor-pointer' onClick={onBookmarkClick} style={bookmark ? clicked : unClicked} />
@@ -241,7 +249,16 @@ function AudioPostDiv() {
           <p className="text-sm md:text-normal"><b>{data.comments}</b> comments</p>
         </div>
   <p className="text-sm md:text-normal"><b className='mr-4'>{data.description}</b></p>
-  {commentDiv}
+  {comment[data.post_id] && (
+    <div className='relative mt-2'>
+    <form onSubmit={(e) => commentOnPost(data.post_id, e)}>
+      <textarea id='comment' type="text" placeholder='Type in your comments...' className='w-full text-sm md:text-normal bg-white dark:bg-black p-2 border border-pink dark:border-white rounded-lg' required></textarea>
+      <button type='submit' className="bg-dark-grey hover:bg-pink rounded-lg p-2 absolute top-2 right-2">
+        <AiOutlineSend className="text-2xl text-white" /> 
+      </button>
+    </form>
+  </div>
+)}
   </div>
   ))}
   </div>

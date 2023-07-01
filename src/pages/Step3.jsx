@@ -42,7 +42,7 @@ function Step3() {
         // if(response.status === 200) {
         // }
       } catch {
-        setLoading(true)
+        setLoading(false)
         setData(null)
         toast.error('Error fetch details')
       }
