@@ -53,8 +53,8 @@ function Post() {
       <main className="w-full min-h-screen mx-auto mt-4 mb-14 ml-0 px-2">
         <div>
         {data
-          .filter((p, index) => index % 3 === 0) // Filter out non-multiple-of-3 indexes
-          .sort((a, b) => new Date(a.created_at) - new Date(b.created_at)) // Sort by creation time
+          .filter((p, index) => index % 3 === 0)
+          .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
           .map((p, index) => {
             const commentIndex = index + 1;
             const comment = data[commentIndex];

@@ -6,20 +6,10 @@ import { useNavigate } from 'react-router-dom'
 import Spinner from './Spinner'
 import profilepic from '../assets/icons8-male-user-50.png'
 
-function AudioPostDiv({ post, comments }) {
+function MyPostDiv({ post, comments }) {
   const [data, setData] = useState([])
+  const [likedPosts, setLikedPosts] = useState([])
   const [posts, setPosts] = useState({ [post.post_id]: { ...post, comment: '' } });
-  const [likedPosts, setLikedPosts] = useState(() => {
-  // Get an array of post objects from the 'posts' object
-  const postArray = Object.values(posts);
-
-  // Filter the post objects based on the 'i_like' property and map them to their IDs
-  const likedPostIds = postArray
-    .filter((post) => post.i_like)
-    .map((post) => post.post_id);
-
-  return likedPostIds;
-});
   const [likes, setLikes] = useState({})
   const [comment, setComment] = useState({})
   const [share, setShare] = useState(false)
@@ -61,40 +51,35 @@ function AudioPostDiv({ post, comments }) {
     return null;
   }
 
-  const handleLike = async (postId) => {
+  const handleLike = (postId) => {
     // Check if the post is already liked
     const isLiked = likedPosts.includes(postId);
-  
+
     if (isLiked) {
       // Unlike the post
-      await unLikePost(postId);
+      unLikePost(postId)
       const updatedLikedPosts = likedPosts.filter((id) => id !== postId);
       setLikedPosts(updatedLikedPosts);
     } else {
       // Like the post
-      await likePost(postId);
+      likePost(postId)
       const updatedLikedPosts = [...likedPosts, postId];
       setLikedPosts(updatedLikedPosts);
     }
-  
     setPosts((prevPosts) => {
       const postToUpdate = prevPosts[postId];
-      const isLiked = postToUpdate.i_like;
-      const updatedLikeCount = isLiked ? Math.max(postToUpdate.likes - 1, 0) : postToUpdate.likes + 1;
-  
+      const isLiked = postToUpdate.likes > 0;
+      const updatedLikeCount = isLiked ? postToUpdate.likes - 1 : postToUpdate.likes + 1;
+
       return {
         ...prevPosts,
         [postId]: {
           ...postToUpdate,
           likes: updatedLikeCount,
-          i_like: !isLiked, // Toggle the value of i_like after liking/unliking
         },
       };
     });
   };
-  
-  
-  
 
   const likePost = async (postId) => {
     const emailVal = getCookie('email');
@@ -218,11 +203,32 @@ function AudioPostDiv({ post, comments }) {
         <h4 className="text-black dark:text-white font-bold text-sm md:text-normal">{post.name}</h4>
         <p className="text-dark-grey text-sm md:text-normal">@{post.stage_name} . {post.created_at}</p>
       </div>
-      <audio className='w-full' controls>
-        <source src={post.file} className="w-full" type="audio/mp3" />
-      </audio>
+      <video className='w-full' controls>
+        <source src={post.file} className="w-full" type="video/mp4" />
+      </video>
       <div className='flex justify-between py-4'>
           <div className='flex gap-4'>
+          {/* {post.i_like === false ? (
+            likedPosts.includes(post.post_id) ? (
+              <FaThumbsUp
+                className='cursor-pointer'
+                style={clicked}
+                onClick={() => unLikePost(post.post_id)}
+              />
+            ) : (
+              <FaThumbsUp
+                className='cursor-pointer'
+                style={unClicked}
+                onClick={() => likePost(post.post_id)}
+              />
+            )
+          ) : (
+            <FaThumbsUp
+              className='cursor-pointer'
+              style={clicked}
+              onClick={() => unLikePost(post.post_id)}
+            />
+          )} */}  
           <button
             onClick={() => handleLike(post.post_id)}
           >
@@ -292,4 +298,4 @@ function AudioPostDiv({ post, comments }) {
   ))
 }
 
-export default AudioPostDiv
+export default MyPostDiv

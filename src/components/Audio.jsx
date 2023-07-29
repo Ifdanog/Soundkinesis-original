@@ -1,7 +1,8 @@
+import React from 'react'
 import { useEffect, useState } from 'react'
+import AudioPostDiv from './AudioPostDiv'
 import { toast } from 'react-toastify'
 import Spinner from './Spinner'
-import AudioPostDiv from './AudioPostDiv'
 
 function Audio() {
   const [data, setData] = useState([])
@@ -52,10 +53,10 @@ function Audio() {
       <main className="w-full min-h-screen mx-auto mt-4 mb-14 ml-0 px-2">
         <div>
         {data
-          .filter((p, index) => index % 3 === 0) // Filter out non-multiple-of-3 indexes
-          .sort((a, b) => new Date(a.post_id) - new Date(b.post_id)) // Sort by creation time
+          .filter((p, index) => index % 3 === 0)
+          .sort((a, b) => new Date(a.post_id) - new Date(b.post_id))
           .map((p, index) => {
-            const commentIndex = index + 1;
+            const commentIndex = p.post_id;
             const comment = data[commentIndex];
             return <AudioPostDiv key={p.post_id} post={p} comments={comment} />;
         })}

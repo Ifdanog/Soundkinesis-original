@@ -1,5 +1,5 @@
 import { FaUpload } from 'react-icons/fa'
-import { CgClose } from 'react-icons/cg'
+import soundKinesisLogo from '../assets/logocolor.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { useRef, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -97,8 +97,8 @@ function UploadPage() {
   return (
     <div className="bg-white dark:bg-black h-screen md:h-full relative p-2 pb-40" onDrop={handleDrop}>
       <Link className="flex mt-4 dark:text-white" to='/newsfeed'>
-          <CgClose className='w-6 h-6 text-black dark:text-white' />
-          <h2 className='ml-4 font-bold'>Upload File</h2>
+        <img src={soundKinesisLogo} alt="Soundkinesis Logo" className='h-16 lg:h-20 ml-6 hidden lg:block cursor-pointer' />
+          <h2 className='ml-8 mt-8 font-bold'>Upload File</h2>
       </Link>
 
       <section>

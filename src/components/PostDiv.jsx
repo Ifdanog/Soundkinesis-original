@@ -8,8 +8,18 @@ import profilepic from '../assets/icons8-male-user-50.png'
 
 function PostDiv({ post, comments }) {
   const [data, setData] = useState([])
-  const [likedPosts, setLikedPosts] = useState([])
   const [posts, setPosts] = useState({ [post.post_id]: { ...post, comment: '' } });
+  const [likedPosts, setLikedPosts] = useState(() => {
+  // Get an array of post objects from the 'posts' object
+  const postArray = Object.values(posts);
+
+  // Filter the post objects based on the 'i_like' property and map them to their IDs
+  const likedPostIds = postArray
+    .filter((post) => post.i_like)
+    .map((post) => post.post_id);
+
+  return likedPostIds;
+});
   const [likes, setLikes] = useState({})
   const [comment, setComment] = useState({})
   const [share, setShare] = useState(false)
@@ -51,35 +61,40 @@ function PostDiv({ post, comments }) {
     return null;
   }
 
-  const handleLike = (postId) => {
+  const handleLike = async (postId) => {
     // Check if the post is already liked
     const isLiked = likedPosts.includes(postId);
-
+  
     if (isLiked) {
       // Unlike the post
-      unLikePost(postId)
+      await unLikePost(postId);
       const updatedLikedPosts = likedPosts.filter((id) => id !== postId);
       setLikedPosts(updatedLikedPosts);
     } else {
       // Like the post
-      likePost(postId)
+      await likePost(postId);
       const updatedLikedPosts = [...likedPosts, postId];
       setLikedPosts(updatedLikedPosts);
     }
+  
     setPosts((prevPosts) => {
       const postToUpdate = prevPosts[postId];
-      const isLiked = postToUpdate.likes > 0;
-      const updatedLikeCount = isLiked ? postToUpdate.likes - 1 : postToUpdate.likes + 1;
-
+      const isLiked = postToUpdate.i_like;
+      const updatedLikeCount = isLiked ? Math.max(postToUpdate.likes - 1, 0) : postToUpdate.likes + 1;
+  
       return {
         ...prevPosts,
         [postId]: {
           ...postToUpdate,
           likes: updatedLikeCount,
+          i_like: !isLiked, // Toggle the value of i_like after liking/unliking
         },
       };
     });
   };
+  
+  
+  
 
   const likePost = async (postId) => {
     const emailVal = getCookie('email');
@@ -208,27 +223,6 @@ function PostDiv({ post, comments }) {
       </video>
       <div className='flex justify-between py-4'>
           <div className='flex gap-4'>
-          {/* {post.i_like === false ? (
-            likedPosts.includes(post.post_id) ? (
-              <FaThumbsUp
-                className='cursor-pointer'
-                style={clicked}
-                onClick={() => unLikePost(post.post_id)}
-              />
-            ) : (
-              <FaThumbsUp
-                className='cursor-pointer'
-                style={unClicked}
-                onClick={() => likePost(post.post_id)}
-              />
-            )
-          ) : (
-            <FaThumbsUp
-              className='cursor-pointer'
-              style={clicked}
-              onClick={() => unLikePost(post.post_id)}
-            />
-          )} */}  
           <button
             onClick={() => handleLike(post.post_id)}
           >

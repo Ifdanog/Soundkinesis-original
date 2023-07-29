@@ -53,8 +53,9 @@ function SideNav() {
   return (
     <>
     <div className="lg:fixed bg-white dark:bg-black lg:h-screen cols-span-2">
-        <img src={soundKinesisLogo} alt="Soundkinesis Logo" className='h-16 lg:h-20 ml-6 hidden lg:block' />
-            <nav className='hidden lg:block pr-12 ml-8'>
+    <Link to='/newsfeed'>
+        <img src={soundKinesisLogo} alt="Soundkinesis Logo" className='h-16 lg:h-20 ml-6 hidden lg:block cursor-pointer' />
+      </Link>            <nav className='hidden lg:block pr-12 ml-8'>
                 <ul>
                     <li className='side-li my-8 flex gap-4 flex-wrap content-center'>
                         <NavLink to="/newsfeed" className='flex gap-4 text-black dark:text-white hover:text-pink'>

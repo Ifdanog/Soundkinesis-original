@@ -19,7 +19,6 @@ function Suggestions() {
 
     useEffect(() => {
       getSuggestedUser()
-      checkIfFollowing()
     }, [])
 
       const getSuggestedUser = async () => {
@@ -36,13 +35,12 @@ function Suggestions() {
           setData(result)
       }
 
-      const checkIfFollowing = async () => {
-        const email = getCookie('email')
-        const followEmail = data.suggested_user_email
+      const checkIfFollowing = async (suggestedUserEmail) => {
+        const email = getCookie('email');
         const checkIfFollowingData = {
           user_email: email,
-          following: followEmail
-        }
+          following: suggestedUserEmail,
+        };
         const response = await fetch(`https://soundkinesis-1ce4ca8b95b5.herokuapp.com/check_follower/`, {
             method: "POST",
             headers: {
@@ -57,16 +55,14 @@ function Suggestions() {
           } else {
             setFollowing(false)
           }
-      }
-
-      const followAcc = async () => {
-        const email = getCookie('email')
-        const followEmail = data.suggested_user_email
-        const followData = {
-          email: email,
-          to_be_followed_email: followEmail
         }
-    
+
+      const followAcc = async (email) => {
+        const followEmail = email; // Use the email of the user to follow
+        const followData = {
+          email: getCookie('email'),
+          to_be_followed_email: followEmail,
+        };
     
         const response = await fetch(`https://soundkinesis-1ce4ca8b95b5.herokuapp.com/follow/`, {
             method: "POST",
@@ -76,19 +72,23 @@ function Suggestions() {
             },
             body: JSON.stringify(followData)
           })
-          const result = await response.json()
-          toast.success(result)
-          setFollowing(true)
-      }
+        const result = await response.json();
+        toast.success(result);
     
-      const unFollowAcc = async () => {
-        const email = getCookie('email')
-        const unFollowEmail = data.suggested_user_email
+        // Update the follow status for the user
+        setData((prevData) =>
+          prevData.map((user) =>
+            user.email === email ? { ...user, following: true } : user
+          )
+        );
+      };
+    
+      const unFollowAcc = async (email) => {
+        const unFollowEmail = email; // Use the email of the user to unfollow
         const unFollowData = {
-          email: email,
-          to_be_unfollowed_email: unFollowEmail
-        }
-    
+          email: getCookie('email'),
+          to_be_unfollowed_email: unFollowEmail,
+        };
     
         const response = await fetch(`https://soundkinesis-1ce4ca8b95b5.herokuapp.com/unfollow/`, {
             method: "POST",
@@ -98,10 +98,17 @@ function Suggestions() {
             },
             body: JSON.stringify(unFollowData)
           })
-          const result = await response.json()
-          toast.success(result)
-          setFollowing(false)
-      }
+
+        const result = await response.json();
+        toast.success(result);
+    
+        // Update the follow status for the user
+        setData((prevData) =>
+          prevData.map((user) =>
+            user.email === email ? { ...user, following: false } : user
+          )
+        );
+      };
   return (
     <div className="hidden lg:block col-span-2">
         <div className="mt-40 flex justify-between">
@@ -117,12 +124,12 @@ function Suggestions() {
                             <img src={item.profile_image} alt="" className="rounded-full h-10" />
                             <div>
                                 <h3 className='text-sm md:text-normal'>{item.stage_name}</h3>
-                                <p className="text-dark-grey text-xs">followed by @{item.username}</p>
+                                <p className="text-dark-grey text-xs">{item.description}</p>
                             </div>
                         </div>
-                        {following ? 
-                          (<a onClick={unFollowAcc} className="text-pink font-bold text-sm md:text-normal cursor-pointer">Unfollow</a>) :
-                          (<a onClick={followAcc} className="text-pink font-bold text-sm md:text-normal cursor-pointer">Follow</a>)
+                        {checkIfFollowing(item.suggested_user_email) ? 
+                          (<a onClick={() => followAcc(item.suggested_user_email)} className="text-pink font-bold text-sm md:text-normal cursor-pointer">Follow</a>) :
+                          (<a onClick={() => unFollowAcc(item.suggested_user_email)} className="text-pink font-bold text-sm md:text-normal cursor-pointer">Unfollow</a>)
                         }
                     </div>
             </div>

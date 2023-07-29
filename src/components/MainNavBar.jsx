@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 function MainNavBar() {
   const navigate = useNavigate()
   const searchArtist = async (e) => {
-    //navigate('/search')
+    navigate('/search')
     e.preventDefault()
   }
 
@@ -14,6 +14,7 @@ function MainNavBar() {
     fontSize: '1.2rem', 
     cursor: 'pointer',
 }
+
 
   return (
     <>
